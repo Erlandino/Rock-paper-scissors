@@ -26,117 +26,168 @@ export default function RockPaperScissors() {
 
     // sets the computer player to a random number(hand) from 1-3
     setComputerHand((prevHand) => {
-      return Math.floor(Math.random() * 3) + 1;
+      return randomHand();
     });
+  }
+
+  function randomHand() {
+    let handNumber = Math.floor(Math.random() * 3) + 1;
+
+    if (handNumber === 1) return "paper";
+    else if (handNumber === 2) return "scissors";
+    else return "rock";
   }
 
   useEffect(() => {
     // checks all possibile hands and decides a winner appropriately
+    // also changes and stores new score in "score" useState
     if (playerHand != null && computerHand != null) {
-      if (playerHand === 1 && computerHand === 3) {
+      if (playerHand === "paper" && computerHand === "rock") {
         setWinner((prevWinner) => "YOU WIN"); /* Player wins */
-        setScore((prevScore) => prevScore + 1);
-      } else if (playerHand === 2 && computerHand === 1) {
+        setScore((prevScore) => prevScore + 1); /*  + 1 score */
+      } else if (playerHand === "scissors" && computerHand === "paper") {
         setWinner((prevWinner) => "YOU WIN"); /* Player wins */
-        setScore((prevScore) => prevScore + 1);
-      } else if (playerHand === 3 && computerHand === 2) {
+        setScore((prevScore) => prevScore + 1); /*  + 1 score */
+      } else if (playerHand === "rock" && computerHand === "scissors") {
         setWinner((prevWinner) => "YOU WIN"); /* Player wins */
-        setScore((prevScore) => prevScore + 1);
+        setScore((prevScore) => prevScore + 1); /*  + 1 score */
       } else if (playerHand === computerHand) {
         setWinner((prevWinner) => "TIE"); /* Tie */
       } else {
         setWinner((prevWinner) => "YOU LOSE"); /* Computer wins */
-        setScore((prevScore) => prevScore + -1);
+        setScore((prevScore) => prevScore + -1); /*  - 1 score */
       }
     }
-  }, [playerHand, computerHand]);
+  }, [
+    playerHand,
+    computerHand,
+  ]); /* only runs content of useEffect if "playerHand" or "computerHand" state has changed value */
 
   console.log("Player: " + playerHand);
   console.log("Computer: " + computerHand);
   console.log("Winner: " + winner);
 
+  // html elements
   return (
     <>
+      {/* Adds opacity to container if rules are displayed
+          and makes the container hide the rules that are displayed if clicked */}
       <div
         className="main__container"
-        style={{ opacity: ifShowRules ? "0.2" : "1" }}
+        style={{ opacity: ifShowRules ? "0.2" : "1" }} /* opacity */
         onClick={() => {
-          ifShowRules && setIfShowRules((prevState) => !prevState);
+          ifShowRules && setIfShowRules((prevState) => !prevState); /* hide/display rules */
         }}
       >
+        {/* Container for headline */}
         <div className="headline">
-          <img src={logo} alt="" className="title__logo" />
+          {/* logo with "rock paper scissors" text */}
+          <img src={logo} alt="logo with `rock paper scissors` text" className="title__logo" />{" "}
+          {/* Container for scoreboard */}
           <div className="scoreboard">
             <p>Score</p>
-            <p className="score">{score}</p>
+            <p className="score">{score}</p> {/* Displays "score" state */}
           </div>
         </div>
+        {/* Container for headline end */}
 
+        {/* Displays content if "playerHand" is not true, 
+            Meaning at the start of the game or after the player presses "PLAY AGAIN"  */}
         {!playerHand && (
+          // Container for rock-paper-scissors choices
           <div className="main__button__container button__container">
+            {/* Container for paper-scissors buttons */}
             <div className="button__container">
-              <button onClick={() => playGame(1)} className="button button--paper">
+              {/* Calls playGame function with the number 1, 1 is used as paper in the function*/}
+              <button onClick={() => playGame("paper")} className="button button--paper">
                 <img
-                  src={paper}
+                  src={paper} /* imported image of a human hand with paper sign */
                   alt="human hand with paper sign"
                   className="button__image button__image--paper"
                 />
               </button>
-              <button onClick={() => playGame(2)} className="button button--scissors">
+              {/* Calls playGame function with the number 2, 2 is used as scissors in the function*/}
+              <button onClick={() => playGame("scissors")} className="button button--scissors">
                 <img
-                  src={scissors}
+                  src={
+                    scissors
+                  } /* imported image of a human hand with scissors sign in the function*/
                   alt="human hand with scissors sign"
                   className="button__image button__image--scissors"
                 />
               </button>
             </div>
+            {/* Container for paper-scissors buttons end */}
 
-            <button onClick={() => playGame(3)} className="button button--rock">
+            {/* Rock button */}
+            {/* Calls playGame function with the number 3, 3 is used as rock */}
+            <button onClick={() => playGame("rock")} className="button button--rock">
               <img
-                src={rock}
+                src={rock} /* imported image of a human hand with rock sign */
                 alt="human hand with rock sign"
                 className="button__image button__image--rock"
               />
             </button>
+            {/* Rock button end */}
           </div>
+          // Container for rock-paper-scissors end
         )}
 
+        {/* Displays content if "playerHand" is true.
+            Meaning at the end of the game when the results are released/releasing  */}
         {playerHand && (
           <>
+            {/* Container for the hand signs and text above */}
             <div className="container__endgame">
+              {/* Players choice container */}
               <div className="endgame__player">
                 <h3>YOU PICKED</h3>
-                <button
-                  className={`button button--${
-                    playerHand === 1 ? "paper" : playerHand === 2 ? "scissors" : "rock"
-                  }`}
-                >
+                {/* Button with different styling using class, depending on player hand choice */}
+                {/* Has an image of the player hand choice inside of it */}
+                <button className={`button button--${playerHand}`}>
+                  {/* Choses image and other attributes based on player hand sign choice */}
                   <img
-                    src={playerHand === 1 ? paper : playerHand === 2 ? scissors : rock}
-                    alt="human hand with paper sign"
-                    className="button__image button__image--paper"
+                    src={
+                      playerHand === "paper" ? paper : playerHand === "scissors" ? scissors : rock
+                    }
+                    alt={`human hand with ${playerHand} sign`}
+                    className={`button__image button__image--${playerHand}`}
                   />
                 </button>
               </div>
+              {/* Players choice container end*/}
 
+              {/* Computer choice container */}
               <div className="endgame__computer">
                 <h3>THE HOUSE PICKED</h3>
-                <button
-                  className={`button button--${
-                    computerHand === 1 ? "paper" : computerHand === 2 ? "scissors" : "rock"
-                  }`}
-                >
+                {/* Button with different styling using class, depending on computer hand choice */}
+                {/* Has an image of the computer hand choice inside of it */}
+                <button className={`button button--${computerHand}`}>
+                  {/* Choses image and other attributes based on player hand sign choice */}
                   <img
-                    src={computerHand === 1 ? paper : computerHand === 2 ? scissors : rock}
-                    alt="human hand with paper sign"
-                    className="button__image button__image--paper"
+                    src={
+                      computerHand === "paper"
+                        ? paper
+                        : computerHand === "scissors"
+                        ? scissors
+                        : rock
+                    }
+                    alt={`human hand with ${computerHand} sign`}
+                    className={`button__image button__image--${computerHand}`}
                   />
                 </button>
               </div>
+              {/* Computer choice container end*/}
             </div>
+            {/* Container for the hand signs and text above end*/}
+
+            {/* Displays content if "winner" is true.
+            Meaning at the end of the game when the results are released  */}
             {winner && (
               <div className="results">
+                {/* title with state that contains either "YOU WIN", "YOU LOSE" or "TIE" in it depending on match results*/}
                 <h1 className="results__text">{winner}</h1>
+                {/* button that resets the game */}
                 <button
                   className="results__button"
                   onClick={() => setPlayerHand((prevHand) => null)}
@@ -148,13 +199,18 @@ export default function RockPaperScissors() {
           </>
         )}
 
+        {/* Button that makes rest of page transparent and displays an image with rules of the game on top of it */}
         <button onClick={() => setIfShowRules((prevState) => !prevState)} className="button--rules">
           RULES
         </button>
       </div>
+
+      {/* Displays when ifShowRules is true.
+          Meaning after rules button is clicked*/}
       {ifShowRules && (
         <div className="rules">
           <p>RULES</p>
+          {/* Imported image of the rules of the game */}
           <img src={rules} alt="" />
         </div>
       )}
