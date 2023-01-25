@@ -1,10 +1,10 @@
+import RockPaperScissors from "./Rock-paper-scissors";
+
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <h1>test</h1>
-      </header>
-    </div>
+    <>
+      <RockPaperScissors />
+    </>
   );
 }
 

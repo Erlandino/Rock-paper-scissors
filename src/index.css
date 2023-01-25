@@ -1,7 +1,138 @@
-body {
+* {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu",
-    "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  padding: 0;
+  box-sizing: border-box;
+}
+body,
+#root {
+  height: 100%;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-image: linear-gradient(to right, #181e40, #1d3050, #181e40);
+}
+.main__container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  gap: 50px;
+}
+.headline {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  border: 3px solid gray;
+  border-radius: 6px;
+  box-sizing: border-box;
+  width: fit-content;
+  padding: 20px 6px;
+  gap: 50px;
+}
+.title__logo {
+  width: 50%;
+}
+.scoreboard {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: gray;
+  background-color: white;
+  border-radius: 6px;
+  padding: 5px 10px;
+  text-align: center;
+}
+.score {
+  font-size: 32px;
+  color: rgb(66, 66, 66);
+}
+.button {
+  border-radius: 100%;
+  width: 100px;
+  height: 100px;
+  cursor: pointer;
+}
+.button--paper {
+  border: 10px blue solid;
+  box-shadow: 0px 6px 0px rgb(0, 0, 180), inset 0px 6px 0px rgb(180, 180, 180);
+}
+.button--scissors {
+  border: 10px yellow solid;
+  box-shadow: 0px 6px 0px rgb(180, 180, 0), inset 0px 6px 0px rgb(180, 180, 180);
+}
+.button--rock {
+  border: 10px red solid;
+  box-shadow: 0px 6px 0px rgb(180, 0, 0), inset 0px 6px 0px rgb(180, 180, 180);
+}
+.button__container {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+.bg__image {
+  width: 25%;
+  height: 25%;
+}
+.main__button__container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-image: url("./media/bg-triangle.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 150px;
+}
+.container__endgame {
+  display: flex;
+  color: white;
+}
+.endgame__computer,
+.endgame__player {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  width: 200px;
+}
+.results {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: white;
+  gap: 10px;
+  text-align: center;
+}
+.results__button {
+  padding: 10px 20px;
+  border-radius: 6px;
+  border: none;
+  color: rgb(66, 66, 66);
+  cursor: pointer;
+  width: 200px;
+}
+.button--rules {
+  padding: 10px 30px;
+  background: none;
+  border: 2px solid white;
+  color: white;
+  border-radius: 12px;
+  cursor: pointer;
+}
+.rules {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  position: absolute;
+  background-color: white;
+  border-radius: 6px;
+  padding: 20px;
+  color: rgb(66, 66, 66);
+  font-size: 22px;
+  font-weight: 700;
+  opacity: 1;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.rules * {
+  opacity: 1;
 }
