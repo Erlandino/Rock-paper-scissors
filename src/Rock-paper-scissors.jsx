@@ -14,6 +14,7 @@ export default function RockPaperScissors() {
   const [winner, setWinner] = useState(null);
   const [score, setScore] = useState(0);
   const [ifShowRules, setIfShowRules] = useState(false);
+  const [width, setWidth] = useState(window.innerWidth);
 
   // function to start and decide winner of rock paper scissor game
   // 1 = Paper, 2 = Scissors, 3 = Rock
@@ -30,12 +31,21 @@ export default function RockPaperScissors() {
     });
   }
 
+  // Sets computerHand state to a random hand sign from paper, scissors and rock
   function randomHand() {
     let handNumber = Math.floor(Math.random() * 3) + 1;
 
     if (handNumber === 1) return "paper";
     else if (handNumber === 2) return "scissors";
     else return "rock";
+  }
+
+  // Sets these 3 states to their default values "null".
+  // making all elements depending on the states being true display while the ones depending on them being false are hidden
+  function resetGame() {
+    setPlayerHand((prevHand) => null);
+    setComputerHand((prevHand) => null);
+    setWinner((prevHand) => null);
   }
 
   useEffect(() => {
@@ -63,11 +73,30 @@ export default function RockPaperScissors() {
     computerHand,
   ]); /* only runs content of useEffect if "playerHand" or "computerHand" state has changed value */
 
+  // Gathers the viewport width of the the device and sets it to "width" state
+  useEffect(() => {
+    // Sets the viewport width on width resize
+    window.addEventListener("resize", () => {
+      setWidth((prevState) => window.innerWidth);
+    });
+    // cleanup
+    return () =>
+      window.removeEventListener("resize", () => {
+        setWidth((prevState) => window.innerWidth);
+      });
+  }, []);
+
   console.log("Player: " + playerHand);
   console.log("Computer: " + computerHand);
   console.log("Winner: " + winner);
+  console.log(width);
 
-  // html elements
+  const winnerAnimation = {
+    animation: "10s borderGlow",
+    animationDelay: "0.5s",
+  };
+
+  // jsx elements
   return (
     <>
       {/* Adds opacity to container if rules are displayed
@@ -141,62 +170,64 @@ export default function RockPaperScissors() {
             <div className="container__endgame">
               {/* Players choice container */}
               <div className="endgame__player">
-                <h3>YOU PICKED</h3>
                 {/* Button with different styling using class, depending on player hand choice */}
                 {/* Has an image of the player hand choice inside of it */}
-                <button className={`button button--${playerHand}`}>
-                  {/* Choses image and other attributes based on player hand sign choice */}
-                  <img
-                    src={
-                      playerHand === "paper" ? paper : playerHand === "scissors" ? scissors : rock
-                    }
-                    alt={`human hand with ${playerHand} sign`}
-                    className={`button__image button__image--${playerHand}`}
-                  />
-                </button>
+                <div style={winner === "YOU WIN" ? winnerAnimation : {}} className="buttonShadow">
+                  <button className={`button button--${playerHand}`}>
+                    {/* Choses image and other attributes based on player hand sign choice */}
+                    <img
+                      src={
+                        playerHand === "paper" ? paper : playerHand === "scissors" ? scissors : rock
+                      }
+                      alt={`human hand with ${playerHand} sign`}
+                      className={`button__image button__image--${playerHand}`}
+                    />
+                  </button>
+                </div>
+                <h3>YOU PICKED</h3>
               </div>
               {/* Players choice container end*/}
 
               {/* Computer choice container */}
               <div className="endgame__computer">
-                <h3>THE HOUSE PICKED</h3>
                 {/* Button with different styling using class, depending on computer hand choice */}
                 {/* Has an image of the computer hand choice inside of it */}
-                <button className={`button button--${computerHand}`}>
-                  {/* Choses image and other attributes based on player hand sign choice */}
-                  <img
-                    src={
-                      computerHand === "paper"
-                        ? paper
-                        : computerHand === "scissors"
-                        ? scissors
-                        : rock
-                    }
-                    alt={`human hand with ${computerHand} sign`}
-                    className={`button__image button__image--${computerHand}`}
-                  />
-                </button>
+                <div style={winner === "YOU LOSE" ? winnerAnimation : {}} className="buttonShadow">
+                  <button className={`button button--${computerHand}`}>
+                    {/* Choses image and other attributes based on player hand sign choice */}
+                    <img
+                      src={
+                        computerHand === "paper"
+                          ? paper
+                          : computerHand === "scissors"
+                          ? scissors
+                          : rock
+                      }
+                      alt={`human hand with ${computerHand} sign`}
+                      className={`button__image button__image--${computerHand}`}
+                    />
+                  </button>
+                </div>
+                <h3>THE HOUSE PICKED</h3>
               </div>
               {/* Computer choice container end*/}
             </div>
             {/* Container for the hand signs and text above end*/}
-
-            {/* Displays content if "winner" is true.
-            Meaning at the end of the game when the results are released  */}
-            {winner && (
-              <div className="results">
-                {/* title with state that contains either "YOU WIN", "YOU LOSE" or "TIE" in it depending on match results*/}
-                <h1 className="results__text">{winner}</h1>
-                {/* button that resets the game */}
-                <button
-                  className="results__button"
-                  onClick={() => setPlayerHand((prevHand) => null)}
-                >
-                  PLAY AGAIN
-                </button>
-              </div>
-            )}
           </>
+        )}
+
+        {/* Displays content if "winner" is true.
+            Meaning at the end of the game when the results are released.
+            Still takes space when hidden unless width is more than 1000px*/}
+        {((width > 1000 && winner) || width < 1000) && (
+          <div className="results" style={{ visibility: winner ? "visible" : "hidden" }}>
+            {/* title with state that contains either "YOU WIN", "YOU LOSE" or "TIE" in it depending on match results*/}
+            <h1 className="results__text">{winner}</h1>
+            {/* button that resets the game */}
+            <button className="results__button" onClick={resetGame}>
+              PLAY AGAIN
+            </button>
+          </div>
         )}
 
         {/* Button that makes rest of page transparent and displays an image with rules of the game on top of it */}

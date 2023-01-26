@@ -25,11 +25,11 @@ body,
   border-radius: 6px;
   box-sizing: border-box;
   width: fit-content;
-  padding: 20px 6px;
+  padding: 20px 20px;
   gap: 50px;
 }
 .title__logo {
-  width: 50%;
+  height: 100%;
 }
 .scoreboard {
   display: flex;
@@ -40,6 +40,7 @@ body,
   border-radius: 6px;
   padding: 5px 10px;
   text-align: center;
+  width: 80px;
 }
 .score {
   font-size: 32px;
@@ -68,6 +69,9 @@ body,
   flex-direction: row;
   gap: 20px;
 }
+.button__image {
+  height: 60%;
+}
 .bg__image {
   width: 25%;
   height: 25%;
@@ -93,6 +97,33 @@ body,
   align-items: center;
   width: 200px;
 }
+.endgame__computer {
+  animation: 10s fadeIn;
+}
+.buttonShadow {
+  box-shadow: inset 0px 6px 0px rgb(180, 180, 180), 0px 6px 0px rgb(180, 180, 180);
+  border-radius: 100%;
+}
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes borderGlow {
+  0% {
+    box-shadow: none;
+  }
+  50% {
+    box-shadow: 0px 0px 0px 40px rgba(255, 255, 255, 0.1), 0px 0px 0px 80px rgba(255, 255, 255, 0.1),
+      0px 0px 0px 120px rgba(255, 255, 255, 0.1);
+  }
+  100% {
+    box-shadow: none;
+  }
+}
 .results {
   display: flex;
   flex-direction: column;
@@ -100,6 +131,7 @@ body,
   color: white;
   gap: 10px;
   text-align: center;
+  animation: 10s fadeIn;
 }
 .results__button {
   padding: 10px 20px;
@@ -107,7 +139,7 @@ body,
   border: none;
   color: rgb(66, 66, 66);
   cursor: pointer;
-  width: 200px;
+  width: 150px;
 }
 .button--rules {
   padding: 10px 30px;
@@ -135,4 +167,42 @@ body,
 }
 .rules * {
   opacity: 1;
+}
+@media screen and (min-width: 1000px) {
+  .headline {
+    justify-content: space-between;
+    width: 700px;
+    height: 120px;
+  }
+
+  .results {
+    transform: translate(0%, -260%);
+  }
+  .container__endgame {
+    gap: 300px;
+  }
+  .button--rules {
+    align-self: flex-end;
+    margin-right: 20px;
+  }
+  .button {
+    height: 200px;
+    width: 200px;
+  }
+  .button--paper {
+    border: 22px blue solid;
+    box-shadow: 0px 12px 0px rgb(0, 0, 180), inset 0px 12px 0px rgb(180, 180, 180);
+  }
+  .button--scissors {
+    border: 22px yellow solid;
+    box-shadow: 0px 12px 0px rgb(180, 180, 0), inset 0px 12px 0px rgb(180, 180, 180);
+  }
+  .button--rock {
+    border: 22px red solid;
+    box-shadow: 0px 12px 0px rgb(180, 0, 0), inset 0px 12px 0px rgb(180, 180, 180);
+  }
+  .endgame__computer,
+  .endgame__player {
+    flex-direction: column-reverse;
+  }
 }
