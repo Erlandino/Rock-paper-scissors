@@ -170,9 +170,10 @@ export default function RockPaperScissors() {
             <div className="container__endgame">
               {/* Players choice container */}
               <div className="endgame__player">
-                {/* Button with different styling using class, depending on player hand choice */}
-                {/* Has an image of the player hand choice inside of it */}
+                {/* Container for button */}
                 <div style={winner === "YOU WIN" ? winnerAnimation : {}} className="buttonShadow">
+                  {/* Button with different styling using class, depending on player hand choice */}
+                  {/* Has an image of the player hand choice inside of it */}
                   <button className={`button button--${playerHand}`}>
                     {/* Choses image and other attributes based on player hand sign choice */}
                     <img
@@ -190,9 +191,10 @@ export default function RockPaperScissors() {
 
               {/* Computer choice container */}
               <div className="endgame__computer">
-                {/* Button with different styling using class, depending on computer hand choice */}
-                {/* Has an image of the computer hand choice inside of it */}
+                {/* Container for button */}
                 <div style={winner === "YOU LOSE" ? winnerAnimation : {}} className="buttonShadow">
+                  {/* Button with different styling using class, depending on computer hand choice */}
+                  {/* Has an image of the computer hand choice inside of it */}
                   <button className={`button button--${computerHand}`}>
                     {/* Choses image and other attributes based on player hand sign choice */}
                     <img
